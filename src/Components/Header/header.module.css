@@ -1,0 +1,32 @@
+.header{
+    height:10vh;
+}
+
+.formsearch{
+    width: 40%;
+}
+
+.ecommerce{
+    font-size: 23px;
+}
+
+.input{
+    font-size: 20px;
+    background-color: rgb(240,245,255);
+}
+
+.input:focus{
+    background-color: rgb(240,245,255);
+   
+}
+
+@media (max-width:560px) {
+    .ecommerce{
+        font-size: 13px;
+    }
+
+    .input{
+        font-size:13px;
+    }
+  }
+  

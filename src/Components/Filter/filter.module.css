@@ -1,0 +1,19 @@
+.filter{
+    width:50%;
+}
+
+.filtercol{
+    cursor: pointer;
+}
+
+@media (max-width:780px){
+    .filter{
+        width:70%;
+    }
+}
+
+@media (max-width:560px) {
+    .filter{
+        width: 100%;
+    }
+}
