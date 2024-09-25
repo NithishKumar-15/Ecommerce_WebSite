@@ -1,70 +1,71 @@
+import { useDispatch, useSelector } from "react-redux";
 import style from "./homeappliances.module.css"
+import { useEffect } from "react";
+import axios from "axios";
 
-const HomeAppliances=()=>{
-    return(
+const HomeAppliances = () => {
+
+    const state=useSelector((state)=>state.homeAppliances);
+    const dispatch=useDispatch();
+
+    useEffect(()=>{
+
+        const fetchData=async()=>{
+            const data=await axios.get("https://ecommerce-website-backend-at15.onrender.com/homeAppliances");
+            console.log(data.data.data);
+            dispatch({type:'AddHomeAppliancesData',data:data.data.data})
+         }
+ 
+         fetchData();
+    },[])
+
+    return (
         <>
             <div className={`container mt-4 bg-white p-3 mb-3`}>
                 <h5>Home Appliances</h5>
                 <div className={`row container`}>
 
-                    <div className={`${style.col} col text-center border rounded me-2`}>
+                {state.map((val)=>(
+                    <div className={`${style.col} col text-center border rounded me-2 btn`} data-bs-toggle="modal" data-bs-target={`#${val.ID}`} key={val.ID}>
                     <figure className="figure p-2">
-                    <img width={150}  src="https://rukminim2.flixcart.com/image/150/150/ktlu9ow0/washing-machine-new/k/a/q/diva-plus-vx-ifb-original-imag6x2yr8a4c9vc.jpeg?q=70" className="figure-img img-fluid rounded" alt="..." />
-                    <h3 className="figure-caption ">Iron Box</h3>
-                    <p>₹5000</p>
+                    <img width={150} src={`${val.Url}`}className="figure-img img-fluid rounded" alt="..." />
+                    <h3 className="figure-caption ">{val.ProductName}</h3>
+                    <p className="text-center">₹{val.Price}</p>
                     </figure>
                     </div>
-
-                    <div className={`${style.col} col text-center border rounded  me-2`}>
-                    <figure className="figure p-2">
-                    <img width={150} src="https://rukminim2.flixcart.com/image/150/150/xif0q/refrigerator-new/h/8/e/-original-imah4fhhzgp6jgsj.jpeg?q=70" className="figure-img img-fluid rounded" alt="..." />
-                    <h3 className="figure-caption ">Iron Box</h3>
-                    <p>₹5000</p>
-                    </figure>
-                    </div>
-
-                    <div className={`${style.col} col text-center border rounded  me-2`}>
-                    <figure className="figure p-2">
-                    <img width={150} src="https://rukminim2.flixcart.com/image/150/150/k0vbgy80/vacuum-cleaner/j/s/j/eureka-forbes-quick-clean-dx-quick-clean-dx-original-imafkka7yychpknq.jpeg?q=70" className="figure-img img-fluid rounded" alt="..." />
-                    <h3 className="figure-caption ">Iron Box</h3>
-                    <p>₹5000</p>
-                    </figure>
-                    </div>
-
-                    <div className={`${style.col} col text-center border rounded  me-2`}>
-                    <figure className="figure p-2">
-                    <img width={150} src="https://rukminim2.flixcart.com/image/612/612/xif0q/sofa-set/q/c/k/-original-imah3creegkyemr7.jpeg?q=70" className={`figure-img img-fluid rounded`} alt="..." />
-                    <h3 className="figure-caption ">Iron Box</h3>
-                    <p>₹5000</p>
-                    </figure>
-                    </div>
-
-                    <div className={`${style.col} col text-center border rounded  me-2`}>
-                    <figure className="figure p-2">
-                    <img width={150} src="https://rukminim2.flixcart.com/image/312/312/xif0q/air-conditioner-new/q/l/h/-original-imah4eh94khhebpv.jpeg?q=70" className="figure-img img-fluid rounded" alt="..." />
-                    <h3 className="figure-caption ">Iron Box</h3>
-                    <p>₹5000</p>
-                    </figure>
-                    </div>
-
-                    <div className={`${style.col} col text-center border rounded  me-2`}>
-                    <figure className="figure p-2">
-                    <img width={150} src="https://rukminim2.flixcart.com/image/612/612/xif0q/wardrobe-closet/a/i/m/-original-imagqctchhrauczd.jpeg?q=70" className="figure-img img-fluid rounded" alt="..." />
-                    <h3 className="figure-caption ">Iron Box</h3>
-                    <p>₹5000</p>
-                    </figure>
-                    </div>
-
-                    <div className={`${style.col} col text-center border rounded  me-2`}>
-                    <figure className="figure p-2">
-                    <img width={150} src="https://rukminim2.flixcart.com/image/612/612/xif0q/bed/q/v/z/-original-imah3crettgjchwz.jpeg?q=70" className="figure-img img-fluid rounded" alt="..." />
-                    <h3 className="figure-caption ">Iron Box</h3>
-                    <p>₹5000</p>
-                    </figure>
-                    </div>
-
+                ))}
                 </div>
             </div>
+
+
+            {state.map((val)=>(
+                <div className="modal fade" id={`${val.ID}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" key={val.ID}>
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+
+                        <figure className="text-center w-100 figure p-2">
+                            <img width={120} src={`${val.Url}`} className="figure-img img-fluid rounded d-block mx-auto" alt="..." />
+                            <h3 className="figure-caption ">{val.ProductName}</h3>
+                            <span className="d-block mb-3">₹{val.Price}</span>
+                            <p>
+                            You don't have to worry about washing your piles of dirty laundry, as you bring home the Whirlpool 7.5-kg fully-automatic washing machine. Featuring a The Stainwash program, this washing machine allows you to remove up to 48 hours old stains. Also, you can sanitize your clothes using the 3 hot water modes which removes germs and allergens from your fabrics. Also, thanks to the Hexa Bloom Impeller feature, you can enjoy a flawless cleaning performance even after rubbing your clothes against each other. 
+                            </p>
+                        </figure>
+
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary">Understood</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ))}
         </>
     )
 }
